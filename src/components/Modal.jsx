@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import server from '../serverCalls.js';
+import { userContext } from './context/userContext.jsx';
+import { mealContext } from './context/mealContext.jsx';
 
 const Modal = ({ name, reset }) => {
   const title = (name === 'login') ? 'Login to your account' : 'Sign up for an account!';
@@ -9,11 +11,30 @@ const Modal = ({ name, reset }) => {
     let password = document.getElementById('password').value;
 
     if (name === 'login') {
-      server.signIn(username, password);
+      server.signIn(username, password, (result) => {
+        if (typeof result === 'string') {
+          alert(result);
+          return;
+        }
+        alert('Signed In!')
+
+        const { username, mealPlan } = result;
+        setUser(username);
+        setSelectedMeals(mealPlan)
+        setMeals(mealPlan);
+        reset('');
+      });
     } else {
-      server.signUp(username, password);
+      server.signUp(username, password, (result)=>{
+        if (result === 'this username already exists') {
+          alert(result)
+          return;
+        }
+        alert('Signed In!');
+        setUser(result);
+        reset('');
+      });
     }
-    reset('');
   }
 
   const handleOutsideClick = (e) => {

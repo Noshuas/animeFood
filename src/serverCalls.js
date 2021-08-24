@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export default {
-   getRecipies: (needs, cb) => {
+   getRecipes: (needs, cb) => {
 
     let minCopper, minCalcium, minIron, minMagnesium, minManganese,
     minPhosphorus, minPotassium, minSelenium, minZinc, minVitaminA,
@@ -21,17 +21,17 @@ export default {
       params[val] = 0;
     }
 
-    params.number = 3;
-    params.minCalories = Math.round( needs.macros.calories * 1 / 4)
+    params.number = 100;
+    params.minCalories = Math.round( needs.macros.calories * .25)
     params.minProtein = Math.round( needs.macros.protein.low / 4)
     params.minCarbs = Math.round( needs.macros.carbs.low / 4)
     params.minFat = Math.round( needs.macros.fat.low / 4)
-    params.maxCalories = Math.round( needs.macros.calories * 1 / 2 )
+    params.maxCalories = Math.round( needs.macros.calories * .4 )
     params.maxProtein = Math.round( needs.macros.protein.high / 2 )
     params.maxCarbs = Math.round( needs.macros.carbs.high / 2 )
     params.maxFat = Math.round( needs.macros.fat.high / 2 )
 
-      axios.get('./recipies', { params })
+      axios.get('./recipes', { params })
         .then((res)=> {
           console.log(res, res.data);
           cb(res.data);
@@ -41,8 +41,8 @@ export default {
         })
     },
 
-    saveRecipies: (recipes) => {
-      axios.post('./recipies', { recipes })
+    saveRecipes: (username,recipes) => {
+      axios.post('./recipes', {username, recipes })
         .then((res)=> {
           console.log(res, res.data);
         })
@@ -51,18 +51,21 @@ export default {
         })
     },
 
-    signIn: (username, password) => {
-      axios.post('./account', { username, password })
+    signIn: (username, password, cb) => {
+      let params = { username, password };
+      axios.get('./account', { params })
         .then((res) => {
           console.log(res, res.data);
+          cb(res.data)
         })
         .catch(console.log)
     },
 
-    signUp: (username, password) => {
+    signUp: (username, password, cb) => {
       axios.post('./account', { username, password })
         .then((res) => {
           console.log(res, res.data);
+          cb(res.data)
         })
         .catch(console.log)
     }

@@ -1,10 +1,12 @@
 import React from 'react';
 import calculate from './nutritionalneeds.js';
 import { mealContext } from './context/mealContext.jsx';
+import { userContext } from './context/userContext.jsx';
 
 const CustomerInfo = () => {
 
   const { setNeeds, selectedMeals } = React.useContext(mealContext);
+  const { user } = React.useContext(userContext);
 
   const calculateNeeds = (sex) => {
     let calories = calculate.calories(sex);
