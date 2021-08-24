@@ -2,16 +2,17 @@ import React, {useState, useEffect} from 'react';
 import CustomerInfo from './CustomerInfo.jsx';
 import MealPlan from './MealPlan.jsx';
 import { mealContext } from './context/mealContext.jsx';
+import { userContext } from './context/userContext.jsx';
 import calls from '../serverCalls.js';
 
-const MealPlanner = ({ user }) => {
+const MealPlanner = () => {
   let [ needs, setNeeds ] = useState('');
   let [ meals, setMeals ] = useState([]);
   let [ selectedMeals, setSelectedMeals ] = useState([]);
 
   useEffect(()=>{
     if (needs !== '') {
-      calls.getRecipies(needs, setMeals);
+      calls.getRecipes(needs, setMeals);
     }
   }, [needs]);
 
