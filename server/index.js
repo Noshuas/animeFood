@@ -3,7 +3,7 @@ const app = express()
 const port = 3000
 const axios = require('axios');
 require('dotenv').config();
-const animeDB = require('../database/index.js');
+// const animeDB = require('../database/index.js');
 
 
 app.use(express.static('/home/noshua/HackReactor/Coding/animeFood/dist'));
